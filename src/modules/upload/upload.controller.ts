@@ -1,4 +1,4 @@
-import { Controller, Post, Response, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { File } from '../../models/interfaces/file.interface';
@@ -10,7 +10,7 @@ export class UploadController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: File, @Response() res) {
-    return this.uploadService.saveUpload(file, res);
+  uploadFile(@UploadedFile() file: File) {
+    return this.uploadService.saveUpload(file);
   }
 }

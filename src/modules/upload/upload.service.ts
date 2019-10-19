@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import { createHash } from 'crypto';
-import { Response } from 'express';
 import { extname } from 'path';
 
 import { File } from '../../models/interfaces/file.interface';
@@ -20,7 +19,7 @@ export class UploadService {
     region: process.env.AWS_S3_REGION,
   });
 
-  saveUpload(file: File, res: Response) {
+  saveUpload(file: File) {
     if (!file) {
       throw new BadRequestException('File is missing.');
     }
