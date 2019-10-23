@@ -1,0 +1,12 @@
+sudo: required
+services:
+- docker
+dist: bionic
+env:
+  global:
+  - DOCKER_IMAGE=lbracun/song-upload:1.0-${TRAVIS_JOB_NUMBER}
+script:
+  - docker build -t "$DOCKER_IMAGE" .
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo push "$DOCKER_IMAGE"
