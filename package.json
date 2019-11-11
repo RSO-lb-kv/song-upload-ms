@@ -13,14 +13,20 @@
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "dependencies": {
+    "@nestcloud/common": "^0.5.2",
+    "@nestcloud/config": "^0.5.2",
+    "@nestcloud/consul": "^0.5.2",
+    "@nestcloud/service": "^0.5.2",
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
     "@nestjs/platform-express": "^6.7.2",
     "aws-sdk": "^2.553.0",
+    "consul": "^0.36.0",
     "dotenv": "^8.2.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "typeorm": "^0.2.20"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
