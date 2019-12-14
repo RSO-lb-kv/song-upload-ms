@@ -1,3 +1,4 @@
+import { ConsulConfig, InjectConfig } from '@nestcloud/config';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import { createHash } from 'crypto';
@@ -13,11 +14,13 @@ function randomSHA1Hash() {
 
 @Injectable()
 export class UploadService {
-  private readonly s3 = new S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_S3_REGION,
-  });
+  private s3: S3;
+
+  constructor(@InjectConfig() private config: ConsulConfig) {
+    config.watch('aws', data => {
+      this.s3 = new S3(data);
+    });
+  }
 
   saveUpload(file: File) {
     if (!file) {
@@ -25,7 +28,7 @@ export class UploadService {
     }
 
     const uploadStream = this.s3.upload({
-      Bucket: process.env.AWS_S3_BUCKET,
+      Bucket: this.config.get('s3-bucket'),
       Key: randomSHA1Hash() + extname(file.originalname).toLowerCase(),
       ACL: 'public-read',
       Body: file.buffer,
