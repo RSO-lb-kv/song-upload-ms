@@ -5,6 +5,7 @@ import { createHash } from 'crypto';
 import { extname } from 'path';
 
 import { File } from '../../models/interfaces/file.interface';
+import { ExternalService } from '../external/external.service';
 
 function randomSHA1Hash() {
   return createHash('sha1')
@@ -16,13 +17,17 @@ function randomSHA1Hash() {
 export class UploadService {
   private s3: S3;
 
-  constructor(@InjectConfig() private config: ConsulConfig) {
+  constructor(
+    @InjectConfig() private config: ConsulConfig,
+    private externalService: ExternalService,
+  ) {
+    this.s3 = new S3(config.get('aws'));
     config.watch('aws', data => {
       this.s3 = new S3(data);
     });
   }
 
-  saveUpload(file: File) {
+  saveUpload(file: File, songData) {
     if (!file) {
       throw new BadRequestException('File is missing.');
     }
@@ -32,7 +37,6 @@ export class UploadService {
       Key: randomSHA1Hash() + extname(file.originalname).toLowerCase(),
       ACL: 'public-read',
       Body: file.buffer,
-      //ContentType: mimeType.contentType(extname(file.key)),
     });
 
     process.nextTick(async () => {
@@ -42,11 +46,15 @@ export class UploadService {
       });
 
       const response = await uploadStream.promise();
-      console.log(response);
 
-      //TODO: send data to catalog-MS
+      await this.externalService.put(
+        'music-catalog',
+        `/v1/catalog/${songData.id}`,
+        {
+          uri: response.Location,
+          status: 'FINISHED',
+        },
+      );
     });
-
-    return { status: 'File upload started' };
   }
 }
