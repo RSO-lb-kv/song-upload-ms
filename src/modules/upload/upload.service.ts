@@ -41,7 +41,7 @@ export class UploadService {
 
     process.nextTick(async () => {
       uploadStream.on('httpUploadProgress', evt => {
-        console.log(evt);
+        // console.log(evt);
         // TODO: do something with upload progress
       });
 
