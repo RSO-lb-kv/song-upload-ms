@@ -23,7 +23,6 @@ import { UploadModule } from './modules/upload/upload.module';
     ConfigModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
     ServiceModule.register({
       dependencies: [NEST_CONSUL],
-      discoveryHost: process.env.POD_IP,
       service: {
         id: 'song-upload',
         name: 'song-upload',
