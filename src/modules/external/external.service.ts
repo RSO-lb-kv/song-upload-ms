@@ -4,7 +4,9 @@ import { post, put } from 'request';
 
 @Injectable()
 export class ExternalService {
-  constructor(@InjectService() private readonly service: Service) {}
+  constructor(@InjectService() private readonly service: Service) {
+    console.log(service.getServiceNodes('music-catalog'));
+  }
 
   post<T>(service: string, path: string, body: any): Promise<T> {
     return new Promise((resolve, reject) => {

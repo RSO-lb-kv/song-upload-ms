@@ -23,6 +23,7 @@ export class UploadService {
   ) {
     this.s3 = new S3(config.get('aws'));
     config.watch('aws', data => {
+      console.log('DATA', data);
       this.s3 = new S3(data);
     });
   }
