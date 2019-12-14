@@ -21,6 +21,8 @@
     "@nestjs/core": "^6.7.2",
     "@nestjs/platform-express": "^6.7.2",
     "aws-sdk": "^2.553.0",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.11.0",
     "consul": "^0.36.0",
     "dotenv": "^8.2.0",
     "reflect-metadata": "^0.1.13",
