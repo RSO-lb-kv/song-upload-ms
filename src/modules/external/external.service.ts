@@ -37,7 +37,14 @@ export class ExternalService {
   }
 
   private getService(service: string): string {
-    const services = this.service.getServiceNodes(service);
+    const services = this.service
+      .getServiceNodes(service)
+      .filter(s => s.status === 'passing');
+
+    if (!services.length) {
+      throw new Error('No healthy services');
+    }
+
     const url = services[Math.floor(Math.random() * services.length)].id;
     return 'http://' + url;
   }
