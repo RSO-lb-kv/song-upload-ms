@@ -3,14 +3,3 @@ config:
 consul:
   host: 35.246.14.139
   port: 80
-  service:
-    id: song-upload
-    name: song-upload
-    port: 3002
-    tags: ['v1.0.1']
-  healthCheck:
-    timeout: 1s
-    interval: 10s
-    route: /health/ready
-  maxRetry: 5
-  retryInterval: 5000

@@ -21,7 +21,22 @@ import { UploadModule } from './modules/upload/upload.module';
     ),
     ConsulModule.register({ dependencies: [NEST_BOOT] }),
     ConfigModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
-    ServiceModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
+    ServiceModule.register({
+      dependencies: [NEST_CONSUL],
+      discoveryHost: process.env.POD_IP,
+      service: {
+        id: 'song-upload',
+        name: 'song-upload',
+        port: +process.env.PORT,
+      },
+      healthCheck: {
+        timeout: '1s',
+        interval: '10s',
+        route: '/health/ready',
+      } as any,
+      maxRetry: 5,
+      retryInterval: 5000,
+    }),
     TerminusModule.forRootAsync({
       imports: [HealthModule],
       useClass: TerminusService,
