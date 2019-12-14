@@ -1,17 +1,17 @@
-host: 127.0.0.1
-port: 8500
 config:
-  key: song.upload
-
+  key: song-upload
 consul:
+  host: 35.246.14.139
+  port: 80
+  discoveryHost: 35.246.14.139
   service:
     id: song-upload
     name: song-upload
     port: 3002
     tags: ['v1.0.1']
-  healthCheck:
-    timeout: 1s
-    interval: 10s
-    route: /health
-  maxRetry: 5
-  retryInterval: 5000
+  #healthCheck:
+  #  timeout: 1s
+  #  interval: 10s
+  #  route: /health
+  #maxRetry: 5
+  #retryInterval: 5000

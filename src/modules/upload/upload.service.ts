@@ -28,7 +28,7 @@ export class UploadService {
     }
 
     const uploadStream = this.s3.upload({
-      Bucket: this.config.get('s3-bucket'),
+      Bucket: this.config.get('aws.bucket'),
       Key: randomSHA1Hash() + extname(file.originalname).toLowerCase(),
       ACL: 'public-read',
       Body: file.buffer,

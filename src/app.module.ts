@@ -11,10 +11,10 @@ import { UploadModule } from './modules/upload/upload.module';
 @Module({
   imports: [
     UploadModule,
-    ConsulModule.register({ dependencies: [NEST_BOOT] }),
     BootModule.register(resolve(), 'consul.yml'),
+    ConsulModule.register({ dependencies: [NEST_BOOT] }),
     ConfigModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
-    ServiceModule.register({ dependencies: [NEST_BOOT] }),
+    ServiceModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
   ],
 })
 export class AppModule {}
