@@ -4,9 +4,12 @@ import { ConfigModule } from '@nestcloud/config';
 import { ConsulModule } from '@nestcloud/consul';
 import { ServiceModule } from '@nestcloud/service';
 import { Module } from '@nestjs/common';
+import { TerminusModule } from '@nestjs/terminus';
 import { resolve } from 'path';
 
 import { ExternalModule } from './modules/external/external.module';
+import { HealthModule } from './modules/health/health.module';
+import { TerminusService } from './modules/health/terminus.service';
 import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
@@ -19,6 +22,10 @@ import { UploadModule } from './modules/upload/upload.module';
     ConsulModule.register({ dependencies: [NEST_BOOT] }),
     ConfigModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
     ServiceModule.register({ dependencies: [NEST_BOOT, NEST_CONSUL] }),
+    TerminusModule.forRootAsync({
+      imports: [HealthModule],
+      useClass: TerminusService,
+    }),
     ExternalModule,
   ],
 })
