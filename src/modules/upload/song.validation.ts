@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class VSong {
   @IsString()
@@ -11,4 +11,9 @@ export class VSong {
   @IsString()
   @IsNotEmpty()
   uploadedBy: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  imageUrl: string;
 }
