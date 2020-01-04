@@ -4,9 +4,11 @@ import { ConfigModule } from '@nestcloud/config';
 import { ConsulModule } from '@nestcloud/consul';
 import { ServiceModule } from '@nestcloud/service';
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TerminusModule } from '@nestjs/terminus';
 import { resolve } from 'path';
 
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { ExternalModule } from './modules/external/external.module';
 import { HealthModule } from './modules/health/health.module';
 import { TerminusService } from './modules/health/terminus.service';
@@ -42,6 +44,12 @@ import { UploadModule } from './modules/upload/upload.module';
       useClass: TerminusService,
     }),
     ExternalModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
   ],
 })
 export class AppModule {}
