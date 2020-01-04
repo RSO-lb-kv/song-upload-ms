@@ -48,10 +48,17 @@ export class UploadService {
 
       const response = await uploadStream.promise();
 
+      const data: any = await this.externalService
+        .put('tempo-detection', '/v1/tempo-detection', {
+          url: response.Location,
+        })
+        .catch(() => {});
+
       await this.externalService.put(
         'music-catalog',
         `/v1/catalog/${songData.id}`,
         {
+          bpm: data ? data.bpm : '',
           uri: response.Location,
           status: 'FINISHED',
         },
