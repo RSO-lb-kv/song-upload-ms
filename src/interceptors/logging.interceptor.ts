@@ -46,7 +46,7 @@ export class LoggingInterceptor implements NestInterceptor {
       },
       json: true,
       body: {
-        service: 'music-catalog-ms',
+        service: 'song-upload-ms',
         timestamp: new Date(),
         ...data,
       },
